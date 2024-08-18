@@ -1,3 +1,5 @@
+#dist folder
+.dist/
 
 # generated types
 .astro/
