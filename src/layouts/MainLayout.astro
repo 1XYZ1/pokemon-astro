@@ -1,5 +1,4 @@
 ---
-import {ViewTransitions} from 'astro:transitions'
 import { siteInfo } from 'src/consts/site-info'
 
 interface Props {
@@ -16,6 +15,8 @@ const {title = siteInfo.title, description = siteInfo.description, image} = Astr
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<base href="/src/pages/pokemons/1">
+
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 

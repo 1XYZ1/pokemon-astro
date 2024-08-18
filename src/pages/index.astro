@@ -8,7 +8,13 @@ const title = "Pokemon Static"
 const resp = await fetch('https://pokeapi.co/api/v2/pokemon')
 const data = await resp.json() as PokemonListResponse
 
+
 ---
+<script>
+  if (typeof window !== 'undefined') {
+    window.location.href = '/pokemons/1';
+  }
+</script>
 
 <MainLayout title={title} >
 	<h1 class="text-3xl mb-2">Listado de Pokemons</h1>
