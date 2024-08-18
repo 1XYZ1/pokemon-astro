@@ -1,0 +1,48 @@
+---
+import { fade } from "astro:transitions"
+
+interface Props {
+  name: string,
+  url: string,
+  verPokemon?: boolean,
+  isBig?: boolean,
+
+
+}
+
+const {name, url, verPokemon, isBig = false} = Astro.props
+
+const id = url.split('/').at(-2)
+// console.log(data.sprites.other?.["official-artwork"].front_default)
+
+const img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+
+---
+
+
+<div class="max-w-sm rounded overflow-hidden shadow-lg">
+  <div class="flex justify-center mt-3">
+
+    <img transition:animate={fade({ duration: '0.15s' })} transition:name={`${name}-image`} class:list={[{"w-26 h-26":isBig}, {"w-20 h-20": !isBig}]} src={img} alt="Pokemon">
+  </div>
+
+  <div class="px-6 py-4">
+    <div class:list={[{"capitalize text-center font-bold text-5xl mb-2": isBig}, {"capitalize text-center font-bold text-xl mb-2": !isBig}]}>{name}</div>
+  </div>
+
+    {
+      verPokemon && (
+        <div class="px-6 pt-4 pb-2 text-center">
+            <a href={`/pokemons/${name}`} type="button" class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">Ver Pokemon</a>
+        </div>
+      )
+
+
+    }
+
+
+
+
+
+
+</div>

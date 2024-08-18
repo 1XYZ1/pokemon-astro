@@ -1,0 +1,48 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { PokemonListResponse} from "@interfaces/PokemonList";
+
+
+import MainLayout from "@layouts/MainLayout.astro";
+import PokemonCard from "@components/pokemons/PokemonCard.astro";
+
+
+
+
+export const getStaticPaths = (async () => {
+  const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const { results } = (await resp.json()) as PokemonListResponse;
+
+  return results.map(({ name, url }) => ({
+    params: { name: name },
+    props: { name: name, url: url },
+  }));
+
+}) satisfies GetStaticPaths;
+
+const {name} = Astro.params
+const {url} = Astro.props as {url: string}
+
+
+const id = url.split('/').at(-2)
+const img = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`
+
+
+
+---
+
+<MainLayout  title={`Pokemon - #${id} ${name}`} description={`Descripcion sobre el pokemon ${name}`} image={img}>
+
+
+<a href="javascript: history.go(-1)" type="button" class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Regresar</a>
+
+
+  <div class="flex flex-col items-center">
+    <PokemonCard  name={name} url={url} isBig />
+    <audio controls class="mt-3 w-full max-w-md  bg-gray-100 rounded-lg shadow-lg">
+      <source src={audioSrc} type="audio/ogg">
+      Tu navegador no soporta el elemento de audio.
+    </audio>
+  </div>
+</MainLayout>
